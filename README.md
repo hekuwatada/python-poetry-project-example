@@ -52,3 +52,11 @@ The output path to Python will look like:
 ```
 <poetry's cache dir>/virtualenvs/python-poetry-project-example-Tn9RUSPg-py3.10/bin/python
 ```
+
+## Step 3: Install dependencies for the first time
+
+```
+poetry install
+```
+
+This will create `poetry.lock` file.
