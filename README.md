@@ -62,7 +62,7 @@ poetry install
 
 This will create `poetry.lock` file.
 
-## Step 4: Install dev dependencies
+## Step 4: Install dev dependencies
 
 We are now ready to install dependencies for development only, typically called "dev dependencies" They are not required to run Python scripts/modules in production and therfore should be managed explicitly for development.
 
@@ -86,6 +86,14 @@ The updated `pyproject.toml` will look like:
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
 ```
+#### How to format files
+In the top directory, run:
 
-#### Why is formatter/coding style guide required?
+```
+black .
+```
+
+This will auto-reformat any file that violates Black's style guide.
+
+#### Why is formatter/coding style guide required?
 To increase readability of our Python code, it is important to maintain consistency and do so automatically. One easy way to achieve this is to select a particular styling guide, albeit opinionated, and enforce it in the codebase by formatting the code by a tool.
