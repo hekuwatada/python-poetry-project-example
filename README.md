@@ -66,6 +66,23 @@ This will create `poetry.lock` file.
 
 We are now ready to install dependencies for development only, typically called "dev dependencies" They are not required to run Python scripts/modules in production and therfore should be managed explicitly for development.
 
+To add a tool to the project as a dev dependency, run:
+```
+poetry add --group dev <tool>
+```
+
+This will:
+- Add the tool as a dev dependency to `pyproject.toml`
+- Install the tool in the project's virtual environment
+- Update `poetry.lock` with the latest version of the tool
+
+The updated `pyproject.toml` will look like:
+
+```
+[tool.poetry.group.dev.dependencies]
+some_tool = "^12.34.0"
+```
+
 ### Step 4-1: Install black - formatter for consistent coding style
 
 [Black](https://black.readthedocs.io/en/stable/the_black_code_style/index.html) is a formatter based on an opinionated style guide for Python code [PEP 8](https://peps.python.org/pep-0008/) to increase consistency and readability.
@@ -75,18 +92,7 @@ To install it, run:
 poetry add --group dev black
 ```
 
-This will:
-- Add `black` as a dev dependency to `pyproject.toml`
-- Install `black`in the project's virtual environment
-- Update `poetry.lock` with the latest version of `black`
-
-The updated `pyproject.toml` will look like:
-
-```
-[tool.poetry.group.dev.dependencies]
-black = "^22.10.0"
-```
-#### How to format files
+#### How to format files with black
 In the top directory, run:
 
 ```
@@ -97,3 +103,12 @@ This will auto-reformat any file that violates Black's style guide.
 
 #### Why is formatter/coding style guide required?
 To increase readability of our Python code, it is important to maintain consistency and do so automatically. One easy way to achieve this is to select a particular styling guide, albeit opinionated, and enforce it in the codebase by formatting the code by a tool.
+
+### Step 4-2: Install flake8 - Linter for reporting issues with coding style
+
+[flake8](https://flake8.pycqa.org/en/latest/) is a linter for enforcing Python coding style. Note that it will not re-foramt violations in the code, for which `black` can be used.
+
+To install `flake8`, run:
+```
+poetry add --group dev flake8
+```
