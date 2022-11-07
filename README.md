@@ -92,7 +92,7 @@ To install it, run:
 poetry add --group dev black
 ```
 
-#### How to format files with black
+#### **How to format files with black**
 In the top directory, run:
 
 ```
@@ -101,7 +101,7 @@ black .
 
 This will auto-reformat any file that violates Black's style guide.
 
-#### Why is formatter/coding style guide required?
+#### **Why is formatter/coding style guide required?**
 To increase readability of our Python code, it is important to maintain consistency and do so automatically. One easy way to achieve this is to select a particular styling guide, albeit opinionated, and enforce it in the codebase by formatting the code by a tool.
 
 ### Step 4-2: Install flake8 - Linter for reporting issues with coding style
@@ -115,7 +115,7 @@ poetry add --group dev flake8
 2. Configure `flake8` to be `black` compatible in `.flake8` file ([link](https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#id2))
 
 
-#### How to check issues with coding style with flake8
+#### **How to check issues with coding style with flake8**
 
 In the top directory, run:
 ```
@@ -134,6 +134,69 @@ bad_code.py:10:1: E741 ambiguous variable name 'l'
 1
 ```
 
-#### Why is linter required?
+#### **Why is linter required?**
 
 A linter is to validate if the code is following a style guide and report issues if any. `flake8` is to catch issues that are not covered by `black`.
+
+### Step 4-3: Install mypy - Static type checker for finding bugs
+
+[`mypy`](https://mypy.readthedocs.io/en/stable/) is a static type check for Python based on [Python's type annotations/hints](https://docs.python.org/3/library/typing.html) added by developers in the code so that integrity of intended types can be verified before running the code.
+
+To install `mypy`, run:
+```
+poetry add --group dev mypy
+```
+
+#### **How to check types in the code with mypy**
+
+```
+mypy .
+```
+
+When `mypy` finds below bad code
+```
+foo: str = 1
+```
+
+It will output an error like below and exit with non-zero exit code:
+```
+% mypy .
+bad_code.py:59: error: Incompatible types in assignment (expression has type "int", variable has type "str")
+
+% echo $?
+1
+```
+
+#### **Why is static type checker required?**
+
+Since Python is not a language that enforeces static types, in order to "type" integrity of the code statically (ie before runtime) and increase readability, developers can add type annotations and validate them with a type checker, such as `mypy`.
+
+For example, below code should ideally be flagged as an issue before runtime:
+
+**Bad code - unintended argument type pased**
+```
+def add_integers(int_a, int_b):
+    return int_a + int_b
+
+add_integers("40", 2)
+```
+
+However, the issue in the code will not be reported and will result in `TypeError: can only concatenate str (not "int") to str` at runtime, which will be a production bug.
+
+**Better code - intended argument types hinted**
+```
+def add_integers(int_a: int, int_b: int) -> int:
+    return int_a + int_b
+
+add_integers("40", 2)
+```
+
+With the type annotations added to the code, the intent of the function to add two integers is clearer. However, type annotations are only for readability in Python and will be treated as "comments" by Python interpreter, therefore the issue will not be flagged before running the code.
+
+**Best solution - type annotations + type cheker**
+
+We can combine type annotations in the code added by developer and running a statick type checker such as `mypy` to flag potential production bugs in advance. For example, `mypy` will report the code above with type annotations as below error and therfore can stop the code from being PR reviewed or getting deployed to production:
+
+```
+bad_code.py:71: error: Argument 1 to "add_integers" has incompatible type "str"; expected "int"
+```
