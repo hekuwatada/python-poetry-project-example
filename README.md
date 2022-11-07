@@ -108,10 +108,12 @@ To increase readability of our Python code, it is important to maintain consiste
 
 [flake8](https://flake8.pycqa.org/en/latest/) is a linter for enforcing Python coding style. Note that it will not re-foramt violations in the code, for which `black` can be used.
 
-To install `flake8`, run:
+1. To install `flake8`, run:
 ```
 poetry add --group dev flake8
 ```
+2. Configure `flake8` to be `black` compatible in `.flake8` file ([link](https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#id2))
+
 
 #### How to check issues with coding style with flake8
 
