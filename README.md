@@ -104,7 +104,7 @@ This will auto-reformat any file that violates Black's style guide.
 #### Why is formatter/coding style guide required?
 To increase readability of our Python code, it is important to maintain consistency and do so automatically. One easy way to achieve this is to select a particular styling guide, albeit opinionated, and enforce it in the codebase by formatting the code by a tool.
 
-### Step 4-2: Install flake8 - Linter for reporting issues with coding style
+### Step 4-2: Install flake8 - Linter for reporting issues with coding style
 
 [flake8](https://flake8.pycqa.org/en/latest/) is a linter for enforcing Python coding style. Note that it will not re-foramt violations in the code, for which `black` can be used.
 
@@ -112,3 +112,26 @@ To install `flake8`, run:
 ```
 poetry add --group dev flake8
 ```
+
+#### How to check issues with coding style with flake8
+
+In the top directory, run:
+```
+flake8 .
+```
+
+When there are issues, output will look like below and `flake8` will return non-zero (ie with errors):
+```
+% flake8 .
+./python_poetry_project_example/dev_dependencies_examples/bad_code.py:4:4: F821 undefined name 'foo'
+bad_code.py:10:1: E741 ambiguous variable name 'l'
+./python_poetry_project_example/dev_dependencies_examples/bad_code.py:14:5: F841 local variable 'a' is assigned to but never used
+
+# check the exit code of flake8 (previously run command)
+% echo $?
+1
+```
+
+#### Why is linter required?
+
+A linter is to validate if the code is following a style guide and report issues if any. `flake8` is to catch issues that are not covered by `black`.
