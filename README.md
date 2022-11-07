@@ -55,8 +55,37 @@ The output path to Python will look like:
 
 ## Step 3: Install dependencies for the first time
 
+Run:
 ```
 poetry install
 ```
 
 This will create `poetry.lock` file.
+
+## Step 4: Install dev dependencies
+
+We are now ready to install dependencies for development only, typically called "dev dependencies" They are not required to run Python scripts/modules in production and therfore should be managed explicitly for development.
+
+### Step 4-1: Install black - formatter for consistent coding style
+
+[Black](https://black.readthedocs.io/en/stable/the_black_code_style/index.html) is a formatter based on an opinionated style guide for Python code [PEP 8](https://peps.python.org/pep-0008/) to increase consistency and readability.
+
+To install it, run:
+```
+poetry add --group dev black
+```
+
+This will:
+- Add `black` as a dev dependency to `pyproject.toml`
+- Install `black`in the project's virtual environment
+- Update `poetry.lock` with the latest version of `black`
+
+The updated `pyproject.toml` will look like:
+
+```
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+```
+
+#### Why is formatter/coding style guide required?
+To increase readability of our Python code, it is important to maintain consistency and do so automatically. One easy way to achieve this is to select a particular styling guide, albeit opinionated, and enforce it in the codebase by formatting the code by a tool.
